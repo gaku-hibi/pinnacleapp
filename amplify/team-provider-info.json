@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pinnacleapp-dev-100600-authRole",
+      "UnauthRoleArn": "arn:aws:iam::561643958265:role/amplify-pinnacleapp-dev-100600-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::561643958265:role/amplify-pinnacleapp-dev-100600-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-pinnacleapp-dev-100600-deployment",
+      "UnauthRoleName": "amplify-pinnacleapp-dev-100600-unauthRole",
+      "StackName": "amplify-pinnacleapp-dev-100600",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:561643958265:stack/amplify-pinnacleapp-dev-100600/a9ff4740-ee05-11ed-b4cc-0a7f655c0003",
+      "AmplifyAppId": "d3k149fudmv1ne"
+    }
+  }
+}

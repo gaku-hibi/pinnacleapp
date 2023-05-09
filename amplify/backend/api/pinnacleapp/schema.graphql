@@ -1,0 +1,38 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Metcom3DLocations @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  DeviceID: String!
+  Timestamp: Int
+  Pressure: Float
+  PressureMin: Float
+  PressureMax: Float
+  Latitude: Float
+  Longitude: Float
+  LocationAccuracy: Float
+  Hae: Float
+  HaeAccuracy: Float
+  Hat: Float
+  HatAccuracy: Float
+  BarocalNeeded: String
+}
+
+type MetcomAmbients @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  DeviceID: String!
+  ChannelID: Int
+  ReadKey: String
+  WriteKey: String
+}
+
+type MetcomDevices @model @auth(rules: [{allow: public}]) {
+  DeviceID: String! @primaryKey
+  Name: String
+  AppID: String
+  Latitude: Float
+  Longitude: Float
+  Accuracy: Float
+  Calibration: Boolean
+}
