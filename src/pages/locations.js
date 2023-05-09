@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { listMetcom3DLocations } from './graphql/queries';
+import { listMetcom3DLocations } from '../graphql/queries';
 import { Card, CardContent, Typography, Grid } from '@mui/material';
 
 function Locations() {

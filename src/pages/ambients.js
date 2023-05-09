@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { createMetcomAmbients, updateMetcomAmbients, deleteMetcomAmbients } from './graphql/mutations';
-import { listMetcomAmbients } from './graphql/queries';
+import { createMetcomAmbients, updateMetcomAmbients, deleteMetcomAmbients } from '../graphql/mutations';
+import { listMetcomAmbients } from '../graphql/queries';
 
 function Ambients() {
     const [ambients, setAmbients] = useState([]);
@@ -12,7 +12,7 @@ function Ambients() {
                         WriteKey: "" }
   
     useEffect(() => {
-      console.log("useEffect実行")
+      console.log("useEffect実行");
       fetchAmbients();
     },[checkUseEffect]);
   

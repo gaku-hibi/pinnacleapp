@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { createMetcomDevices, updateMetcomDevices, deleteMetcomDevices } from './graphql/mutations';
-import { listMetcomDevices } from './graphql/queries';
+import { createMetcomDevices, updateMetcomDevices, deleteMetcomDevices } from '../graphql/mutations';
+import { listMetcomDevices } from '../graphql/queries';
 
 function Devices() {
     const [devices, setDevices] = useState([]);
@@ -13,7 +13,7 @@ function Devices() {
                         Calibration: false}
   
     useEffect(() => {
-      console.log("useEffect実行")
+      console.log("useEffect実行");
       fetchDevices();
     },[checkUseEffect]);
   
@@ -24,7 +24,7 @@ function Devices() {
     }
   
     async function createDevice(device) {
-      console.log("createDevice関数実行")
+      console.log("createDevice関数実行");
       console.log(device);
       await API.graphql(graphqlOperation(createMetcomDevices, {input: device}));
       reloadDeviceList();
