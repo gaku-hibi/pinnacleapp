@@ -1,6 +1,7 @@
-import React, { useParams, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listMetcom3DLocations } from '../graphql/queries';
+import { useParams } from 'react-router-dom';
 
 function LocationHistory () {
     const { DeviceID } = useParams();
