@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Devices from "./pages/devices";
 import Ambients from "./pages/ambients";
 import Locations from "./pages/locations";
+import LocationHistory from "./pages/location-history";
 
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Locations />} />
           <Route path="/devices" element={<Devices />} />
           <Route path="/ambients" element={<Ambients />} />
+          <Route path="/history" element={<LocationHistory />} />
         </Routes>
       </Router>
     </div>

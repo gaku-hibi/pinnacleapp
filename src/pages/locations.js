@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { listMetcom3DLocations } from '../graphql/queries';
+import { listMetcom3DLocationsSortbyTime } from '../graphql/custom-queries';
 import { Card, CardContent, Typography, Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function Locations() {
     const [locations, setLocations] = useState([]);
@@ -12,9 +13,16 @@ function Locations() {
     },[]);
   
     async function fetchLocations(){
-      const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations))
+      const apiData = await API.graphql(graphqlOperation(listMetcom3DLocationsSortbyTime))
       console.log(apiData);
-      setLocations(apiData.data.listMetcom3DLocations.items);
+      const items = apiData.data.listMetcom3DLocationsSortbyTime.items;
+      const latestLocationByDeviceID = items.reduce((acc, item) => {
+        if (!acc[item.DeviceID] || acc[item.DeviceID].Timestamp < item.Timestamp) {
+          acc[item.DeviceID] = item;
+        }
+        return acc;
+      }, {});
+      setLocations(latestLocationByDeviceID);
     }
   
     return (
@@ -24,30 +32,30 @@ function Locations() {
           <h2>Locations</h2>
           <div style={{marginBottom: 30}}>
             <Grid container spacing={2}>
-            { locations.map(location => {
+            { locations.map(location => (
                 <Grid item key={location.id} xs={12} sm={6} md={4}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h5" component="h2">
-                        Device ID: {location.DeviceID}
-                      </Typography>
-                      <Typography color="textSecondary">
-                        Timestamp: {new Date(location.Timestamp * 1000).toLocaleString()}
-                      </Typography>
-                      <Typography color="textSecondary">
-                        Pressure: {location.Pressure.toFixed(2)} Pa
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                  <Link to={`/history/${location.DeviceID}`}>
+                    <Card>
+                      <CardContent>
+                        <Typography variant="h5" component="h2">
+                          Device ID: {location.DeviceID}
+                        </Typography>
+                        <Typography color="textSecondary">
+                          Timestamp: {new Date(location.Timestamp * 1000).toLocaleString()}
+                        </Typography>
+                        <Typography color="textSecondary">
+                          Pressure: {location.Pressure.toFixed(2)} Pa
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 </Grid>
-              })
-            }
+            ))}
             </Grid>
           </div>
         </header>
       </div>
     );
 }
-
 
 export default Locations;
