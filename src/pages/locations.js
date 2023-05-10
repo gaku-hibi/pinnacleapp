@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { listMetcom3DLocationsSortbyTime } from '../graphql/custom-queries';
+import { listMetcom3DLocations } from '../graphql/queries';
 import { Card, CardContent, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -13,9 +13,9 @@ function Locations() {
     },[]);
   
     async function fetchLocations(){
-      const apiData = await API.graphql(graphqlOperation(listMetcom3DLocationsSortbyTime))
+      const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations))
       console.log(apiData);
-      const items = apiData.data.listMetcom3DLocationsSortbyTime.items;
+      const items = apiData.data.listMetcom3DLocations.items;
       const latestLocationByDeviceID = items.reduce((acc, item) => {
         if (!acc[item.DeviceID] || acc[item.DeviceID].Timestamp < item.Timestamp) {
           acc[item.DeviceID] = item;
