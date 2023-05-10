@@ -1,4 +1,4 @@
-import React, { useParam, useEffect } from 'react';
+import React, { useParams, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listMetcom3DLocations } from '../graphql/queries';
 
