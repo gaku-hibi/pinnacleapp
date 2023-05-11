@@ -8,21 +8,29 @@ function Locations() {
     const [locations, setLocations] = useState([]);
   
     useEffect(() => {
-      console.log("useEffect実行")
       fetchLocations();
     },[]);
   
     async function fetchLocations(){
-      const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations))
-      console.log(apiData);
-      const items = apiData.data.listMetcom3DLocations.items;
-      const latestLocationByDeviceID = items.reduce((acc, item) => {
-        if (!acc[item.DeviceID] || acc[item.DeviceID].Timestamp < item.Timestamp) {
-          acc[item.DeviceID] = item;
+      try {
+        const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations, {limit:1000}));
+        console.log(apiData);
+        const locations = apiData.data.listMetcom3DLocations.items;
+
+        //DeviceID毎に最新の位置データを取得する
+        const locationsByDevice = {};
+        for (const location of locations) {
+          if (!locationsByDevice[location.DeviceID] || locationsByDevice[location.DeviceID].Timestamp < location.Timestamp) {
+            locationsByDevice[location.DeviceID] = location;
+          }
         }
-        return acc;
-      }, {});
-      setLocations(latestLocationByDeviceID);
+
+        //TimeStampでソートする
+        const sortedLocations = Object.values(locationsByDevice).sort((a, b) => b.Timestamp - a.Timestamp);
+        setLocations(sortedLocations);
+      } catch (err) {
+        console.error('Error fetching locations', err);
+      }
     }
   
     return (
