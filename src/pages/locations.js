@@ -54,6 +54,9 @@ function Locations() {
                         <Typography color="textSecondary">
                           Pressure: {location.Pressure.toFixed(2)} Pa
                         </Typography>
+                        <Typography color="textSecondary">
+                          HAT: {location.Hat.toFixed(2)} m
+                        </Typography>
                       </CardContent>
                     </Card>
                   </Link>
