@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listMetcom3DLocations } from '../graphql/queries';
 import { useParams } from 'react-router-dom';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 function LocationHistory () {
     const { deviceID } = useParams();
@@ -28,13 +29,22 @@ function LocationHistory () {
     return (
         <div>
             <h2>Device Details for ID: {deviceID}</h2>
-            {locations.map(location => (
-                <div key={location.id}>
-                    <p>Timestamp: {location.Timestamp}</p>
-                    <p>Pressure: {location.Pressure}</p>
-                    <p>HAT: {location.Hat}</p>
-                </div>
-            ))}
+            <LineChart
+                width={500}
+                height={300}
+                data={locations}
+                margin={{
+                    top: 5, right: 30, left: 20, bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="Timestamp" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="Pressure" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="Hat" stroke="#82ca9d" />
+            </LineChart>
         </div>
     );    
 }
