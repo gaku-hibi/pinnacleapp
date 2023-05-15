@@ -36,7 +36,7 @@ function Locations() {
     return (
       <div className="Locations">
         <header className="Locations-header">
-          <h1>MetCom Pinnacle</h1>
+          <h1>Pinnacle Test</h1>
           <h2>Locations</h2>
           <div style={{marginBottom: 30}}>
             <Grid container spacing={2}>
