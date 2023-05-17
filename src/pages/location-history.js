@@ -19,7 +19,7 @@ function LocationHistory () {
                 limit: 100
             }));
             const locations = apiData.data.listMetcom3DLocations.items;
-            const sortedLocations = locations.sort((a, b) => b.Timestamp - a.Timestamp);
+            const sortedLocations = locations.sort((a, b) => a.Timestamp - b.Timestamp);
             setLocations(sortedLocations.map(location => ({
                 ...location,
                 Timestamp: new Date(location.Timestamp * 1000), // Here, we keep the Timestamp as a Date object
