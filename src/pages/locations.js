@@ -52,10 +52,10 @@ function Locations() {
                           Timestamp: {new Date(location.Timestamp * 1000).toLocaleString()}
                         </Typography>
                         <Typography color="textSecondary">
-                          Pressure: {location.Pressure.toFixed(2)} Pa
+                          Pressure: {(location.Pressure / 100).toFixed(2)} hPa
                         </Typography>
                         <Typography color="textSecondary">
-                          HAT: {location.Hat.toFixed(2)} m
+                          HAT: {location.Hat.toFixed(1)} m
                         </Typography>
                       </CardContent>
                     </Card>
