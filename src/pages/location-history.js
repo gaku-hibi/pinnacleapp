@@ -28,8 +28,8 @@ function LocationHistory () {
 
             // Calculate min and max for Pressure
             const pressures = mappedLocations.map(location => location.Pressure);
-            const minPressure = Math.floor(Math.min(...pressures) / 10) * 10 - 10;
-            const maxPressure = Math.ceil(Math.max(...pressures) / 10) * 10 + 10;
+            const minPressure = Math.floor(Math.min(...pressures) / 10) * 10;
+            const maxPressure = Math.ceil(Math.max(...pressures) / 10) * 10;
 
             setLocations({
                 data: mappedLocations,
