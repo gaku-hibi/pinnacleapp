@@ -16,7 +16,8 @@ function LocationHistory () {
         try {
             const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations, {
                 filter: { DeviceID: { eq: deviceID}},
-                limit: 144
+                limit: 144,
+                sortDirection: 'DESC'
             }));
             const locations = apiData.data.listMetcom3DLocations.items;
             const sortedLocations = locations.sort((a, b) => a.Timestamp - b.Timestamp);

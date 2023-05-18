@@ -13,7 +13,10 @@ function Locations() {
   
     async function fetchLocations(){
       try {
-        const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations, {limit:1000}));
+        const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations, {
+          limit:1000,
+          sortDirection: 'DESC'
+        }));
         console.log(apiData);
         const locations = apiData.data.listMetcom3DLocations.items;
 
@@ -55,7 +58,13 @@ function Locations() {
                           Pressure: {(location.Pressure / 100).toFixed(2)} hPa
                         </Typography>
                         <Typography color="textSecondary">
-                          HAT: {location.Hat.toFixed(1)} m
+                          HAT: {location.Hat !== null && location.Hat !== undefined ? location.Hat.toFixed(1) : "-"} m
+                        </Typography>
+                        <Typography color="textSecondary">
+                          HAE: {location.Hae !== null && location.Hae !== undefined ? location.Hae.toFixed(1) : "-"} m
+                        </Typography>
+                        <Typography color="textSecondary">
+                          BarocalNeeded: {location.BarocalNeeded}
                         </Typography>
                       </CardContent>
                     </Card>
