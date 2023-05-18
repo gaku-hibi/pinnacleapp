@@ -134,3 +134,42 @@ export const listMetcomDevices = /* GraphQL */ `
     }
   }
 `;
+export const listMetCom3DLocationsByDeviceIDSortedTimestamp = /* GraphQL */ `
+  query ListMetCom3DLocationsByDeviceIDSortedTimestamp(
+    $DeviceID: String!
+    $Timestamp: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMetcom3DLocationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMetCom3DLocationsByDeviceIDSortedTimestamp(
+      DeviceID: $DeviceID
+      Timestamp: $Timestamp
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        DeviceID
+        Timestamp
+        Pressure
+        PressureMin
+        PressureMax
+        Latitude
+        Longitude
+        LocationAccuracy
+        Hae
+        HaeAccuracy
+        Hat
+        HatAccuracy
+        BarocalNeeded
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

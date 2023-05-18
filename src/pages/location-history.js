@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { listMetcom3DLocations } from '../graphql/queries';
+import { listMetCom3DLocationsByDeviceIDSortedTimestamp } from '../graphql/queries';
 import { useParams } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -14,14 +14,15 @@ function LocationHistory () {
 
     async function fetchLocations(deviceID) {
         try {
-            const apiData = await API.graphql(graphqlOperation(listMetcom3DLocations, {
-                filter: { DeviceID: { eq: deviceID}},
+            const oneDayAgo = Math.floor((Date.now() - 24*60*60*1000) / 1000);
+            const apiData = await API.graphql(graphqlOperation(listMetCom3DLocationsByDeviceIDSortedTimestamp, {
+                DeviceID: deviceID,
+                Timestamp: { ge: oneDayAgo },
                 limit: 144,
-                sortDirection: 'DESC'
+                sortDirection: 'ASC'
             }));
-            const locations = apiData.data.listMetcom3DLocations.items;
-            const sortedLocations = locations.sort((a, b) => a.Timestamp - b.Timestamp);
-            const mappedLocations = sortedLocations.map(location => ({
+            const locations = apiData.data.listMetCom3DLocationsByDeviceIDSortedTimestamp.items;
+            const mappedLocations = locations.map(location => ({
                 ...location,
                 Pressure: location.Pressure / 100,
                 Timestamp: new Date(location.Timestamp * 1000), // Here, we keep the Timestamp as a Date object
@@ -69,8 +70,8 @@ function LocationHistory () {
                     <YAxis yAxisId="right" orientation='right' stroke="#82ca9d" />
                     <Tooltip labelFormatter={(label) => formatDate(new Date(label))} />
                     <Legend />
-                    <Line yAxisId="left" type="monotone" dataKey="Pressure" stroke="#8884d8" dot />
-                    <Line yAxisId="right" type="monotone" dataKey="Hat" stroke="#82ca9d" dot />
+                    <Line yAxisId="left" type="linear" dataKey="Pressure" stroke="#8884d8" dot />
+                    <Line yAxisId="right" type="linear" dataKey="Hat" stroke="#82ca9d" dot />
                 </LineChart>
             </ResponsiveContainer>
         </div>
