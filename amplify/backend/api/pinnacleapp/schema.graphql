@@ -2,9 +2,9 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
-type Metcom3DLocations @model @key(fields: ["DeviceID", "createdAt"]) @auth(rules: [{allow: public}]) {
+type Metcom3DLocations @model @auth(rules: [{allow: public}]) {
   id: ID!
-  DeviceID: String!
+  DeviceID: String! @index(name: "byDeviceID", queryField: "MetCom3DLocationsByDeviceID")
   Timestamp: Int
   Pressure: Float
   PressureMin: Float
