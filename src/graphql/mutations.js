@@ -178,3 +178,78 @@ export const deleteMetcomDevices = /* GraphQL */ `
     }
   }
 `;
+export const createMetcomDeviceDefs = /* GraphQL */ `
+  mutation CreateMetcomDeviceDefs(
+    $input: CreateMetcomDeviceDefsInput!
+    $condition: ModelMetcomDeviceDefsConditionInput
+  ) {
+    createMetcomDeviceDefs(input: $input, condition: $condition) {
+      id
+      DeviceID
+      Timestamp
+      Pressure
+      PressureAve
+      PressureDef
+      Hae
+      HaeAccuracy
+      HaeAve
+      HaeDef
+      Hat
+      HatAccuracy
+      HatAve
+      HatDef
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateMetcomDeviceDefs = /* GraphQL */ `
+  mutation UpdateMetcomDeviceDefs(
+    $input: UpdateMetcomDeviceDefsInput!
+    $condition: ModelMetcomDeviceDefsConditionInput
+  ) {
+    updateMetcomDeviceDefs(input: $input, condition: $condition) {
+      id
+      DeviceID
+      Timestamp
+      Pressure
+      PressureAve
+      PressureDef
+      Hae
+      HaeAccuracy
+      HaeAve
+      HaeDef
+      Hat
+      HatAccuracy
+      HatAve
+      HatDef
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteMetcomDeviceDefs = /* GraphQL */ `
+  mutation DeleteMetcomDeviceDefs(
+    $input: DeleteMetcomDeviceDefsInput!
+    $condition: ModelMetcomDeviceDefsConditionInput
+  ) {
+    deleteMetcomDeviceDefs(input: $input, condition: $condition) {
+      id
+      DeviceID
+      Timestamp
+      Pressure
+      PressureAve
+      PressureDef
+      Hae
+      HaeAccuracy
+      HaeAve
+      HaeDef
+      Hat
+      HatAccuracy
+      HatAve
+      HatDef
+      createdAt
+      updatedAt
+    }
+  }
+`;

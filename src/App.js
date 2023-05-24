@@ -5,6 +5,7 @@ import Devices from "./pages/devices";
 import Ambients from "./pages/ambients";
 import Locations from "./pages/locations";
 import LocationHistory from "./pages/location-history";
+import LocationHistoryAll from "./pages/location-history-all-devices";
 
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
@@ -18,6 +19,7 @@ function App() {
           <Route path="/devices" element={<Devices />} />
           <Route path="/ambients" element={<Ambients />} />
           <Route path="/history/:deviceID" element={<LocationHistory />} />
+          <Route path="/allhistory" element={<LocationHistoryAll />} />
         </Routes>
       </Router>
     </div>

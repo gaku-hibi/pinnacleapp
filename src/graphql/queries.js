@@ -134,6 +134,61 @@ export const listMetcomDevices = /* GraphQL */ `
     }
   }
 `;
+export const getMetcomDeviceDefs = /* GraphQL */ `
+  query GetMetcomDeviceDefs($id: ID!) {
+    getMetcomDeviceDefs(id: $id) {
+      id
+      DeviceID
+      Timestamp
+      Pressure
+      PressureAve
+      PressureDef
+      Hae
+      HaeAccuracy
+      HaeAve
+      HaeDef
+      Hat
+      HatAccuracy
+      HatAve
+      HatDef
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMetcomDeviceDefs = /* GraphQL */ `
+  query ListMetcomDeviceDefs(
+    $filter: ModelMetcomDeviceDefsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMetcomDeviceDefs(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        DeviceID
+        Timestamp
+        Pressure
+        PressureAve
+        PressureDef
+        Hae
+        HaeAccuracy
+        HaeAve
+        HaeDef
+        Hat
+        HatAccuracy
+        HatAve
+        HatDef
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const listMetCom3DLocationsByDeviceIDSortedTimestamp = /* GraphQL */ `
   query ListMetCom3DLocationsByDeviceIDSortedTimestamp(
     $DeviceID: String!
@@ -166,6 +221,45 @@ export const listMetCom3DLocationsByDeviceIDSortedTimestamp = /* GraphQL */ `
         Hat
         HatAccuracy
         BarocalNeeded
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const listMetComDeviceDefsByDeviceIDSortedTimestamp = /* GraphQL */ `
+  query ListMetComDeviceDefsByDeviceIDSortedTimestamp(
+    $DeviceID: String!
+    $Timestamp: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMetcomDeviceDefsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMetComDeviceDefsByDeviceIDSortedTimestamp(
+      DeviceID: $DeviceID
+      Timestamp: $Timestamp
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        DeviceID
+        Timestamp
+        Pressure
+        PressureAve
+        PressureDef
+        Hae
+        HaeAccuracy
+        HaeAve
+        HaeDef
+        Hat
+        HatAccuracy
+        HatAve
+        HatDef
         createdAt
         updatedAt
       }

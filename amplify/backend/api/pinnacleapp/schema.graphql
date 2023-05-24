@@ -36,3 +36,20 @@ type MetcomDevices @model @auth(rules: [{allow: public}]) {
   Accuracy: Float
   Calibration: Boolean
 }
+
+type MetcomDeviceDefs @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  DeviceID: String! @index(name: "byDeviceID", sortKeyFields: ["Timestamp"], queryField: "listMetComDeviceDefsByDeviceIDSortedTimestamp")
+  Timestamp: Int
+  Pressure: Float
+  PressureAve: Float
+  PressureDef: Float
+  Hae: Float
+  HaeAccuracy: Float
+  HaeAve: Float
+  HaeDef: Float
+  Hat: Float
+  HatAccuracy: Float
+  HatAve: Float
+  HatDef: Float
+}

@@ -169,3 +169,75 @@ export const onDeleteMetcomDevices = /* GraphQL */ `
     }
   }
 `;
+export const onCreateMetcomDeviceDefs = /* GraphQL */ `
+  subscription OnCreateMetcomDeviceDefs(
+    $filter: ModelSubscriptionMetcomDeviceDefsFilterInput
+  ) {
+    onCreateMetcomDeviceDefs(filter: $filter) {
+      id
+      DeviceID
+      Timestamp
+      Pressure
+      PressureAve
+      PressureDef
+      Hae
+      HaeAccuracy
+      HaeAve
+      HaeDef
+      Hat
+      HatAccuracy
+      HatAve
+      HatDef
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMetcomDeviceDefs = /* GraphQL */ `
+  subscription OnUpdateMetcomDeviceDefs(
+    $filter: ModelSubscriptionMetcomDeviceDefsFilterInput
+  ) {
+    onUpdateMetcomDeviceDefs(filter: $filter) {
+      id
+      DeviceID
+      Timestamp
+      Pressure
+      PressureAve
+      PressureDef
+      Hae
+      HaeAccuracy
+      HaeAve
+      HaeDef
+      Hat
+      HatAccuracy
+      HatAve
+      HatDef
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMetcomDeviceDefs = /* GraphQL */ `
+  subscription OnDeleteMetcomDeviceDefs(
+    $filter: ModelSubscriptionMetcomDeviceDefsFilterInput
+  ) {
+    onDeleteMetcomDeviceDefs(filter: $filter) {
+      id
+      DeviceID
+      Timestamp
+      Pressure
+      PressureAve
+      PressureDef
+      Hae
+      HaeAccuracy
+      HaeAve
+      HaeDef
+      Hat
+      HatAccuracy
+      HatAve
+      HatDef
+      createdAt
+      updatedAt
+    }
+  }
+`;
