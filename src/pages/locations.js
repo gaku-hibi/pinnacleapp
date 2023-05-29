@@ -28,7 +28,7 @@ function Locations() {
           }
         }
 
-        const sortedLocations = Object.values(locationsByDevice).sort((a, b) => b.DeviceID - a.DeviceID);
+        const sortedLocations = Object.values(locationsByDevice).sort((a, b) => parseInt(a.DeviceID,  16) - parseInt(b.DeviceID, 16));
         setLocations(sortedLocations);
         //TimeStampでソートする
         //const sortedLocations = Object.values(locationsByDevice).sort((a, b) => b.Timestamp - a.Timestamp);
