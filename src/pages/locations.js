@@ -28,9 +28,11 @@ function Locations() {
           }
         }
 
-        //TimeStampでソートする
-        const sortedLocations = Object.values(locationsByDevice).sort((a, b) => b.Timestamp - a.Timestamp);
+        const sortedLocations = Object.values(locationsByDevice).sort((a, b) => b.DeviceID - a.DeviceID);
         setLocations(sortedLocations);
+        //TimeStampでソートする
+        //const sortedLocations = Object.values(locationsByDevice).sort((a, b) => b.Timestamp - a.Timestamp);
+        //setLocations(sortedLocations);
       } catch (err) {
         console.error('Error fetching locations', err);
       }
