@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { listMetCom3DLocationsByDeviceIDSortedTimestamp, listMetcomDevices } from '../graphql/queries';
+import { listMetComDeviceDefsByDeviceIDSortedTimestamp, listMetcomDevices } from '../graphql/queries';
 
-const AllDevicesPressureGraph = () => {
+const DeviceDefs = () => {
   const [data, setData] = useState([]);
   const [deviceIDs, setDeviceIDs] = useState([]);
 
@@ -31,22 +31,23 @@ const AllDevicesPressureGraph = () => {
       let fetchedData = [];
   
       do {
-        const deviceData = await API.graphql(graphqlOperation(listMetCom3DLocationsByDeviceIDSortedTimestamp, { 
+        const deviceData = await API.graphql(graphqlOperation(listMetComDeviceDefsByDeviceIDSortedTimestamp, { 
           DeviceID: deviceId, 
           nextToken: nextToken,
         }));
   
         if (deviceData.data) {
-          const newData = deviceData.data.listMetCom3DLocationsByDeviceIDSortedTimestamp.items.map(item => ({
+          const newData = deviceData.data.listMetComDeviceDefsByDeviceIDSortedTimestamp.items.map(item => ({
             deviceId: deviceId,
             timestamp: item.Timestamp,
-            [deviceId]: item.Pressure // the key of the pressure value is now the device id
+            [deviceId]: item.PressureDef // the key of the pressuredef value is now the device id
           }));
+          console.log(newData);
   
           fetchedData = [...fetchedData, ...newData];
         }
   
-        nextToken = deviceData.data.listMetCom3DLocationsByDeviceIDSortedTimestamp.nextToken;
+        nextToken = deviceData.data.listMetComDeviceDefsByDeviceIDSortedTimestamp.nextToken;
       } while (nextToken);
   
       setData(prevData => {
@@ -60,7 +61,6 @@ const AllDevicesPressureGraph = () => {
     }
   };
   
-
   useEffect(() => {
     fetchAllDeviceIDs();
   }, []); 
@@ -84,7 +84,7 @@ const AllDevicesPressureGraph = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="timestamp" tickFormatter={formatXAxis} />
-        <YAxis domain={[95000, 105000]} />
+        <YAxis domain={[-200, 200]} />
         <Tooltip />
         <Legend />
         {
@@ -98,4 +98,4 @@ const AllDevicesPressureGraph = () => {
   
 };
 
-export default AllDevicesPressureGraph
+export default DeviceDefs
