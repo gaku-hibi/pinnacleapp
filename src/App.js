@@ -21,7 +21,7 @@ function App() {
             <Route path="/devices" element={<Devices />} />
             <Route path="/ambients" element={<Ambients />} />
             <Route path="/history/:deviceID" element={<LocationHistory />} />
-            <Route path="/devicedefs" element={<DeviceDefs />} />
+            <Route path="/baros" element={<DeviceDefs />} />
           </Routes>
         </Router>
         <Helmet>
