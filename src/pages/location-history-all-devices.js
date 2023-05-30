@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { listMetCom3DLocationsByDeviceIDSortedTimestamp, listMetcomDevices } from '../graphql/queries';
 
-const AllDevicesHATGraph = () => {
+const AllDevicesPressureGraph = () => {
   const [data, setData] = useState([]);
   const [deviceIDs, setDeviceIDs] = useState([]);
 
@@ -40,7 +40,7 @@ const AllDevicesHATGraph = () => {
           const newData = deviceData.data.listMetCom3DLocationsByDeviceIDSortedTimestamp.items.map(item => ({
             deviceId: deviceId,
             timestamp: item.Timestamp,
-            [deviceId]: item.Hat // the key of the hat value is now the device id
+            [deviceId]: item.Pressure // the key of the pressure value is now the device id
           }));
   
           fetchedData = [...fetchedData, ...newData];
@@ -75,19 +75,27 @@ const AllDevicesHATGraph = () => {
   };
   
   return (
-    <LineChart width={500} height={300} data={data} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-      <XAxis dataKey="timestamp" tickFormatter={formatXAxis} />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      {
-        deviceIDs.map((deviceId, i) => (
-          <Line key={deviceId} type="monotone" dataKey={datum => datum.deviceId === deviceId ? datum[deviceId] : null} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
-        ))
-      }
-    </LineChart>
+    <ResponsiveContainer width="99%" aspect={3}>
+      <LineChart
+          data={data}
+          margin={{
+              top: 5, right: 30, left: 20, bottom: 5,
+          }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="timestamp" tickFormatter={formatXAxis} />
+        <YAxis domain={[95000, 105000]} />
+        <Tooltip />
+        <Legend />
+        {
+          deviceIDs.map((deviceId, i) => (
+            <Line key={deviceId} type="monotone" dataKey={datum => datum.deviceId === deviceId ? datum[deviceId] : null} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
+          ))
+        }
+      </LineChart>
+    </ResponsiveContainer>
   );
   
 };
 
-export default AllDevicesHATGraph
+export default AllDevicesPressureGraph
