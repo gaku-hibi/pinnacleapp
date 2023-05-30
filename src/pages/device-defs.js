@@ -24,7 +24,49 @@ const DeviceDefs = () => {
       console.error('Error fetching device IDs', error);
     }
   };
+/*
+  const fetchData = async (deviceId) => {
+    try {
+      let nextToken = null;
+  
+      do {
+        const deviceData = await API.graphql(graphqlOperation(listMetComDeviceDefsByDeviceIDSortedTimestamp, { 
+          DeviceID: deviceId, 
+          nextToken: nextToken,
+        }));
+  
+        if (deviceData.data) {
+          const newData = deviceData.data.listMetComDeviceDefsByDeviceIDSortedTimestamp.items;
+          const mappedData = newData.map(d => ({
+            ...d,
+            Timestamp: d.Timestamp * 1000, // Here, we keep the Timestamp as a Date object
+          }));
 
+          // Add data to the corresponding timestamp object
+          mappedData.forEach(item => {
+            // Check if an object for the timestamp already exists in the data array
+            let timestampObject = data.find(datum => datum.timestamp === item.Timestamp);
+  
+            if (timestampObject) {
+              // Add the new device data to the existing timestamp object
+              timestampObject[deviceId] = item.PressureDef;
+            } else {
+              // Create a new object for the timestamp and add the device data
+              data.push({
+                timestamp: item.Timestamp,
+                [deviceId]: item.PressureDef
+              });
+            }
+          });
+        }
+  
+        nextToken = deviceData.data.listMetComDeviceDefsByDeviceIDSortedTimestamp.nextToken;
+      } while (nextToken);
+    } catch (error) {
+      console.error(`Error fetching device data for ID ${deviceId}`, error);
+    }
+  };
+  */
   const fetchData = async (deviceId) => {
     try {
       let nextToken = null;
@@ -39,7 +81,7 @@ const DeviceDefs = () => {
         if (deviceData.data) {
           const newData = deviceData.data.listMetComDeviceDefsByDeviceIDSortedTimestamp.items.map(item => ({
             deviceId: deviceId,
-            timestamp: item.Timestamp,
+            timestamp: item.Timestamp * 1000,
             [deviceId]: item.PressureDef // the key of the pressuredef value is now the device id
           }));
           console.log(newData);
@@ -74,26 +116,39 @@ const DeviceDefs = () => {
     return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   };
   
+  const formatDate = (date) => {
+    const month = (date.getMonth() + 1).toString();
+    const day = date.getDate().toString();
+    const hours = date.getHours().toString().padStart(2, '0');
+
+    return `${month}/${day} ${hours}h`;
+  };    
+
   return (
-    <ResponsiveContainer width="99%" aspect={3}>
-      <LineChart
-          data={data}
-          margin={{
-              top: 5, right: 30, left: 20, bottom: 5,
-          }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="timestamp" tickFormatter={formatXAxis} />
-        <YAxis domain={[-200, 200]} />
-        <Tooltip />
-        <Legend />
-        {
-          deviceIDs.map((deviceId, i) => (
-            <Line key={deviceId} type="monotone" dataKey={datum => datum.deviceId === deviceId ? datum[deviceId] : null} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
-          ))
-        }
-      </LineChart>
-    </ResponsiveContainer>
+    <div>
+      <h2>Barometer's Delta</h2>
+      <ResponsiveContainer width="99%" aspect={3}>
+        <LineChart
+            data={data}
+            margin={{
+                top: 5, right: 30, left: 20, bottom: 5,
+            }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="timestamp" tickFormatter={formatXAxis} />
+          <YAxis domain={[-200, 200]} />
+          <Tooltip labelFormatter={(label) => formatDate(new Date(label))} />
+          <Legend />
+          {
+            deviceIDs.map((deviceId, i) => (
+              <Line key={deviceId} type="monotone" dataKey={deviceId} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
+
+              //<Line key={deviceId} type="monotone" dataKey={datum => datum.deviceId === deviceId ? datum[deviceId] : null} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
+            ))
+          }
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
   
 };
