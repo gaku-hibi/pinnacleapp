@@ -121,7 +121,7 @@ const DeviceDefs = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-      <h2>気圧センサ経年変化</h2>
+      <h2>Barometer Aging</h2>
       <ResponsiveContainer width="99%" aspect={3}>
         <LineChart
             data={data}
