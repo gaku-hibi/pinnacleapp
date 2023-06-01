@@ -65,7 +65,6 @@ function Devices() {
     return (
       <div className="Devices">
         <header className="Devices-header">
-          <h1>MetComアプリ</h1>
           <h2>Device登録</h2>
           <input placeholder="DeviceID" onChange={e => updateFormState("DeviceID", e.target.value)} />
           <input placeholder="Name" onChange={e => updateFormState("Name", e.target.value)} />

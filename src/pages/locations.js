@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listMetcom3DLocations } from '../graphql/queries';
-import { Card, CardContent, Typography, Grid } from '@mui/material';
+import { Card, CardHeader, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import RouterIcon from '@mui/icons-material/Router';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ThermostatIcon from '@mui/icons-material/Thermostat';
+import BusinessIcon from '@mui/icons-material/Business';
+import PublicIcon from '@mui/icons-material/Public';
+import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
+import Grid from '@mui/material/Unstable_Grid2';
 
 function Locations() {
     const [locations, setLocations] = useState([]);
@@ -41,33 +48,32 @@ function Locations() {
     return (
       <div className="Locations">
         <header className="Locations-header">
-          <h1>Pinnacle Test</h1>
-          <h2>Locations</h2>
+          <h2>Device Locations</h2>
           <div style={{marginBottom: 30}}>
             <Grid container spacing={2}>
             { locations.map(location => (
                 <Grid item key={location.id} xs={12} sm={6} md={4}>
-                  <Link to={`/history/${location.DeviceID}`}>
+                  <Link to={`/history/${location.DeviceID}`} style={{ textDecoration: 'none' }}>
                     <Card>
+                      <CardHeader title={location.DeviceID} />
                       <CardContent>
-                        <Typography variant="h5" component="h2">
-                          Device ID: {location.DeviceID}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Timestamp: {new Date(location.Timestamp * 1000).toLocaleString()}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Pressure: {(location.Pressure / 100).toFixed(2)} hPa
-                        </Typography>
-                        <Typography color="textSecondary">
-                          HAT: {location.Hat !== null && location.Hat !== undefined ? location.Hat.toFixed(1) : "-"} m
-                        </Typography>
-                        <Typography color="textSecondary">
-                          HAE: {location.Hae !== null && location.Hae !== undefined ? location.Hae.toFixed(1) : "-"} m
-                        </Typography>
-                        <Typography color="textSecondary">
-                          BarocalNeeded: {location.BarocalNeeded}
-                        </Typography>
+                        <Grid container spacing={2}>
+                          <Grid xs={6} md={4}>
+                            <ThermostatIcon /> {(location.Pressure / 100).toFixed(2)} hPa
+                          </Grid>
+                          <Grid xs={6} md={4}>
+                            <BusinessIcon /> {location.Hat !== null && location.Hat !== undefined ? location.Hat.toFixed(1) : "-"} m
+                          </Grid>
+                          <Grid xs={6} md={4}>
+                            <PublicIcon /> {location.Hae !== null && location.Hae !== undefined ? location.Hae.toFixed(1) : "-"} m
+                          </Grid>
+                          <Grid xs={6} md={4}>
+                            <AccessTimeIcon /> {new Date(location.Timestamp * 1000).toLocaleString()}
+                          </Grid>
+                          <Grid xs={6} md={4}>
+                            <PermDataSettingIcon /> {location.BarocalNeeded}
+                          </Grid>
+                        </Grid>
                       </CardContent>
                     </Card>
                   </Link>

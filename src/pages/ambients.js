@@ -62,7 +62,6 @@ function Ambients() {
     return (
       <div className="Ambients">
         <header className="Ambients-header">
-          <h1>MetComアプリ</h1>
           <h2>Ambient登録</h2>
           <input placeholder="DeviceID" onChange={e => updateFormState("DeviceID", e.target.value)} />
           <input placeholder="ChannelID" type="number" onChange={e => updateFormState("ChannelID", e.target.value)} />

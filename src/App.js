@@ -7,6 +7,7 @@ import Locations from "./pages/locations";
 import LocationHistory from "./pages/location-history";
 import DeviceDefs from "./pages/device-defs";
 import { HelmetProvider, Helmet } from 'react-helmet-async';
+import Header from './header';
 
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
@@ -14,8 +15,9 @@ Amplify.configure(awsconfig);
 function App() {
   return (
     <HelmetProvider>
-      <div className="App">
+      <div className="App"> 
         <Router>
+        <Header />
           <Routes>
             <Route path="/" element={<Locations />} />
             <Route path="/devices" element={<Devices />} />

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { listMetComDeviceDefsByDeviceIDSortedTimestamp, listMetcomDevices } from '../graphql/queries';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+
 
 const DeviceDefs = () => {
   const [data, setData] = useState([]);
@@ -90,9 +92,36 @@ const DeviceDefs = () => {
     return `${month}/${day} ${hours}h`;
   };    
 
+  //Oldest,Newestの日時と気圧差(PressureDef)を取得する
+  function getOldestAndNewestPressure(data, deviceId) {
+    if (data.length === 0) {
+      return {};
+    }
+    
+    // Sort data by timestamp
+    const sortedData = data.sort((a, b) => a.timestamp - b.timestamp);
+    
+    const oldestPressure = sortedData[0][deviceId];
+    const newestPressure = sortedData[sortedData.length - 1][deviceId];
+  
+    const oldestTimestamp = sortedData[0].timestamp;
+    const newestTimestamp = sortedData[sortedData.length - 1].timestamp;
+
+    const deltaPressure = newestPressure - oldestPressure;
+  
+    return {
+      oldestPressure,
+      newestPressure,
+      oldestTimestamp,
+      newestTimestamp,
+      deltaPressure,
+    };
+  }
+
+
   return (
-    <div>
-      <h2>Barometer's Delta</h2>
+    <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+      <h2>気圧センサ経年変化</h2>
       <ResponsiveContainer width="99%" aspect={3}>
         <LineChart
             data={data}
@@ -104,16 +133,50 @@ const DeviceDefs = () => {
           <XAxis dataKey="timestamp" tickFormatter={formatXAxis} />
           <YAxis domain={[-200, 200]} />
           <Tooltip labelFormatter={(label) => formatDate(new Date(label))} />
-          <Legend />
           {
             deviceIDs.map((deviceId, i) => (
-              <Line key={deviceId} type="monotone" dataKey={deviceId} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
+              <Line key={deviceId} type="linear" dataKey={deviceId} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
 
               //<Line key={deviceId} type="monotone" dataKey={datum => datum.deviceId === deviceId ? datum[deviceId] : null} stroke={`#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`} activeDot={{ r: 8 }} name={`Device ${deviceId}`} />
             ))
           }
         </LineChart>
       </ResponsiveContainer>
+
+      <h3>Device Data</h3>
+      <div style={{ width: '90%' }}>
+        <TableContainer component={Paper}>
+          <Table aria-label="device data table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Device ID</TableCell>
+                <TableCell>Oldest Date</TableCell>
+                <TableCell>⊿P from ave(Pa)</TableCell>
+                <TableCell>Newest Date</TableCell>
+                <TableCell>⊿P from ave(Pa)</TableCell>
+                <TableCell>⊿Aging(Pa)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {deviceIDs.map((deviceId) => {
+                const deviceData = data.filter((item) => item[deviceId]);
+                const { oldestPressure, newestPressure, oldestTimestamp, newestTimestamp, deltaPressure } = getOldestAndNewestPressure(deviceData, deviceId);
+                
+                return (
+                  <TableRow key={deviceId}>
+                    <TableCell component="th" scope="row">{deviceId}</TableCell>
+                    <TableCell>{oldestTimestamp ? formatDate(new Date(oldestTimestamp)) : 'N/A'}</TableCell>
+                    <TableCell>{oldestPressure ? oldestPressure.toFixed(2) : 'N/A'}</TableCell>
+                    <TableCell>{newestTimestamp ? formatDate(new Date(newestTimestamp)) : 'N/A'}</TableCell>
+                    <TableCell>{newestPressure ? newestPressure.toFixed(2) : 'N/A'}</TableCell>
+                    <TableCell>{deltaPressure ? deltaPressure.toFixed(2) : 'N/A'}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
   );
   
