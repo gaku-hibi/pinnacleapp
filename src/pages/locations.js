@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listMetcom3DLocations } from '../graphql/queries';
-import { Card, CardHeader, CardContent, Typography } from '@mui/material';
+import { Card, CardHeader, CardContent } from '@mui/material';
 import { Link } from 'react-router-dom';
-import RouterIcon from '@mui/icons-material/Router';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ThermostatIcon from '@mui/icons-material/Thermostat';
 import BusinessIcon from '@mui/icons-material/Business';
